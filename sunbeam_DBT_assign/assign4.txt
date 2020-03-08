@@ -1,0 +1,21 @@
+1.grant update on classwork.BOOKS to sunbeam@localhost;
+
+2.i)grant select on classwork.BOOKS to sunbeam@localhost;
+  ii)grant select on classwork.EMP to sunbeam@localhost;
+  iii)grant select on classwork.DEPT to sunbeam@localhost;
+
+3.grant insert on classwork.EMP to sunbeam@localhost;
+
+4.grant delete on classwork.DEPT to sunbeam@localhost;
+
+5.revoke update on classwork.books from sunbeam@localhost;
+
+6.revoke insert on classwork.EMP from sunbeam@localhost;
+
+7.revoke delete on classwork.DEPT from sunbeam@localhost;
+
+8. i)revoke select on classwork.BOOKS from sunbeam@localhost;
+   ii)revoke select on classwork.DEPT from sunbeam@localhost;
+   iii)revoke select on classwork.EMP from sunbeam@localhost;
+
+

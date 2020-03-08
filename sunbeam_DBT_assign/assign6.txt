@@ -1,0 +1,116 @@
+
+###hr###
+
+1.select d.department_name,e.first_name from departments d inner join employees e on e.employee_id=d.manager_id;
+
+2.select d.department_name,e.first_name,l.city from departments d inner join employees e on e.employee_id=d.manager_id  inner join locations l on d.location_id=l.location_id;
+
+3.select c.country_name,l.city,d.department_name 
+         from countries c inner join locations l 
+         on l.country_id=c.country_id 
+         inner join departments d 
+         on d.location_id=l.location_id;
+
+
+
+5.select j.job_title,avg(e.salary) from jobs j inner join employees e
+  on j.job_id=e.job_id
+  group by j.job_id;
+
+
+6.select j.job_title,e.first_name,j.max_salary-e.salary "diff" from jobs j inner join employees e on j.job_id=e.job_id;
+
+7.select e.last_name,j.job_title from employees e inner join jobs j 
+     on e.job_id=j.job_id 
+     inner join departments d
+     on d.department_id=e.department_id
+     where e.department_id=30 and e.commission_pct>0;
+
+8.select j.job_id,j.job_title from jobs j inner join employees e on j.job_id=e.job_id where e.salary>15000;
+
+
+9. select d.department_name,e.first_name,datediff('1992-09-18',e.hire_date)/365 from departments d inner join employees e on d.manager_id=e.employee_id where datediff('1992-09-18',e.hire_date)/365 > 5;
+
+10.select e1.first_name from employees e1 inner join employees e2 on e1.employee_id=e2.manager_id where e1.hire_date<e2.hire_date;
+
+11.
+
+12.select e.first_name,c.country_name from employees e inner join departments d 
+   on e.department_id=d.department_id;  
+   inner join locations l 
+   on d.location_id=l.location_id  
+   inner join countries c 
+   on l.country_id=c.country_id;
+
+13.select d.department_name,avg(e.salary),count(e.employee_id) from departments d inner join employees e on d.department_id=e.department_id where e.commission_pct is not null group by e.department_id;
+
+14. select month(e.hire_date),count(e.employee_id) from employees e inner join departments d on e.department_id=d.department_id inner join locations l on l.location_id=d.location_id where l.city='sydney' group by month(e.hire_date) having count(e.employee_id)>5;
+
+15.select d.department_id,d.department_name,d.manager_id,d.location_id from departments d inner join employees e on d.department_id=e.department_id inner join jobs j  on j.job_id=e.job_id where j.max_salary>10000 group by d.department_id;
+
+##spj##
+1.select distinct s.sname,sp.qty from s inner join sp on s.`s#`=sp.`s#`;
+
+2.select distinct p.pname,sp.qty from p inner join sp on p.`p#`=sp.`p#`;
+  2.1 select distinct p.`p#`,sum(sp.qty) from p inner join sp on p.`p#`=sp.`p#` group by `p#`;
+
+3.select j.jname,sp.qty from j inner join sp on j.`j#`=sp.`j#`;
+
+4.select s.sname,p.pname,j.jname,sp.qty from s inner join sp on s.`s#`=sp.`s#` inner join p on sp.`p#`=p.`p#` inner join j on j.`j#`= sp.`j#`;
+
+5.select s.sname,s.city,j.jname from s inner join sp on s.`s#`=sp.`s#` inner join j on j.`j#`=sp.`j#` where j.city=s.city;
+
+6.select p.pname,sp.qty from p inner join sp on sp.`p#`=p.`p#` where p.color='red';
+
+7.select sp.qty from sp inner join s on sp.`s#`=s.`s#` where s.status=20;
+
+8.select distinct p.pname from p inner join sp on p.`p#`=sp.`p#` where p.weight>14;
+
+9. select j.jname,sp.qty from j inner join sp on j.`j#`=sp.`j#` where sp.qty>500;
+
+10.select distinct p.pname,sp.qty from p inner join sp on p.`p#`=sp.`p#` where p.weight<15;
+
+11.select s1.`s#`,s1.sname,s1.status,s1.city from s s1 inner join s s2 on s1.status=s2.status where s2.sname="clark" and s1.sname!="clark";
+
+12.
+
+13.select * from p where weight>all(select weight from p where color='red');
+
+14.select j1.jname,j2.jname from j j1 inner join j j2 on j1.city=j2.city  where j2.jname='tape' and j1.jname!='tape';
+
+15.select * from p where weight<all(select weight from p where color='green');
+
+16.select sname from s inner join sp  on s.`s#`=sp.`s#` where sp.qty=(select max(qty) from sp);
+
+16 .1set @sp=(select max(qty) from sp);
+   .2select s.sname from s inner join sp on s.`s#`=sp.`s#` where sp.qty=@sp;
+
+17.select * from EMP where sal=(select min(sal) from EMP);   //classwork database//
+
+18.1.1set @sp1=(select `s#` from sp group by `s#` order by sum(qty) desc limit 0,1);
+    .2select distinct s.sname from s inner join sp on s.`s#`=sp.`s#` where sp.`s#`=@sp1;
+
+##Sales##
+
+1. select o.onum,c.cname from ORDERS o inner join CUSTOMERS c on o.cnum=c.cnum;
+
+2. select o.onum,c.cname,s.sname from ORDERS o inner join CUSTOMERS c on o.cnum=c.cnum inner join SALESPEOPLE s on s.snum=c.snum;
+
+3.select c.cnum,c.cname,s.sname,s.comm from CUSTOMERS c inner join SALESPEOPLE s on c.snum=s.snum where s.comm>0.12;
+
+4.select o.amt*s.comm,c.cnum,s.snum from ORDERS o inner join SALESPEOPLE s on o.snum=s.snum inner join CUSTOMERS c on c.cnum=o.cnum where
+  c.rating>100;
+
+5.select s1.sname,s2.sname ,s1.city from SALESPEOPLE s1 inner join SALESPEOPLE s2 on s1.city=s2.city where s1.snum<s2.snum;
+
+6.select c1.city,c1.cname,c2.rating from CUSTOMERS c1 inner join CUSTOMERS c2 where c1.rating=c2.rating and c2.cname='hoffman' and c1.cname!='hoffman';
+
+
+
+
+
+
+
+
+
+

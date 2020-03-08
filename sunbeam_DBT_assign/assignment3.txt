@@ -1,0 +1,27 @@
+1.update EMP  set job='SOFTWARE DEVELOPER' where name='smith';
+
+2.update EMP
+   set sal=4000,
+       comm=200
+   where
+       empno=7788;
+
+3.update EMP
+   set sal=(sal+sal*0.05);
+  
+4.update EMP
+   set comm=100
+   where
+      comm=NULL;
+  
+5.delete from EMP
+    where
+    deptno=40;
+
+6.delete from EMP
+   where
+   hire='1982-01-23';
+
+7.delete from EMP
+  where
+  deptno=10;

@@ -1,0 +1,137 @@
+###hr###
+1.select * from employees where first_name like 's%' or last_name like "s%";
+
+2.select 
+  concat(upper(left(first_name,1)),lower(substring(first_name,2))) "first name",
+  concat(upper(left(last_name,1)),lower(substring(last_name,2))) "last name" 
+  from employees;
+
+3.select left(job_id,2) from employees;
+
+4.select length(first_name) from employees where last_name like '__b%';
+
+5.select upper(first_name) 'first name',lower(email) 'email' from employees where first_name=email;
+
+6.select first_name,salary,round(salary,-3) "thousands" from employees;
+
+7.select manager_id,count(employee_id) from employees group by manager_id;
+
+8. select e.employee_id,jh.end_date from employees e inner join job_history jh on e.employee_id=jh.employee_id   //join problem//
+
+9.select country_id,count(city) from locations group by country_id;
+
+10.select avg(salary),department_id from employees where commission_pct>0 group by department_id;
+
+11.select job_id,count(employee_id),sum(salary),max(salary),min(salary),max(salary)-min(salary) "difference" from employees group by job_id;
+
+12.select job_id,avg(salary) from employees group by job_id having avg(salary)>10000;
+
+13.select left(hire_date,4),count(employee_id) from employees group by left(hire_date,4) having count(employee_id)>10;
+
+14.select department_id,count(commission_pct) from employees group by  department_id having count(commission_pct)>5;
+
+15.select employee_id ,count(employee_id) 'no. of jobs did' from job_history group by employee_id having count(employee_id)>1;
+
+16.select job_id,count(employee_id) from job_history where datediff(end_date,start_date)>100 group by job_id having count(employee_id)>3;
+
+17.select department_id,left(hire_date,4),count(employee_id)from employees group by department_id,left(hire_date,4);
+
+18.select department_id,count(manager_id) from employees group by department_id having count(manager_id)>5;
+
+19.select first_name,date_add(hire_date,interval 10 day) as "first salary date" from employees;
+
+20.select first_name,left(hire_date,4) from employees where left(hire_date,4)=2001;
+
+23.select datediff(sysdate(),"2011-01-01");
+
+24.select count(employee_id) ,right(left(hire_date,7),2) 'hiring month' from employees group by right(left(hire_date,7),2);
+
+25.select employee_id from employees where right(hire_date,2)>15;
+
+26.select department_id,max(salary) from employees group by department_id having max(salary)>10000;
+
+27. select d.department_name,e.last_name from employees e inner join departments d on d.department_id=e.department_id where e.first_name='smith' or e.last_name='smith';
+ //join//
+
+28.select job_id,count(employee_id),left(hire_date,4) from employees group by job_id,left(hire_date,4);
+
+29.select * from employees where employee_id!=all(select employee_id from job_history); //sub query//
+     
+30.
+
+31.select manager_id,count(employee_id) from employees group by manager_id having count(employee_id)>5;
+
+32.
+
+33.
+
+34.select salary from employees where employee_id=(select employee_id from job_history where job_id='IT_PROG');
+
+35.select * from employees where salary=(select distinct salary from employees order by salary limit 2,1);
+
+36.select * from employees where salary between 5000 and 10000 and commission_pct=0.30;
+
+
+
+###sales
+1.select * from ORDERS where odate="1990-10-03" or odate="1990-10-03";
+
+2.select c.cname from CUSTOMERS c inner join SALESPEOPLE s on s.snum=c.snum where s.sname="Motika" or s.sname="Peel";
+
+3.select * from CUSTOMERS where left(cname,1) between "A" and "G";
+
+4.select * from CUSTOMERS where cname like 'c%';
+
+5.select * from ORDERS where amt!=0 or amt is not null;
+
+6.select * from ORDERS where date(odate)='1990-10-03';
+ or
+6.select * from ORDERS where right(odate,5)='10-03';
+
+7.select cnum,min(amt) from ORDERS group by cnum;
+
+8.select c.cnum,min(o.amt) from CUSTOMERS c inner join ORDERS o on c.cnum=o.cnum group by c.cnum ; //join//
+ 8.1 select cnum,min(amt) from ORDERS group by cnum;
+
+9. select distinct * from CUSTOMERS where cname like 'g%' order by cname limit 0,1;
+
+10.select max(rating) from CUSTOMERS c inner join ORDERS o on c.cnum=o.cnum group by o.odate;
+
+11.select distinct count(snum) from ORDERS group by snum;
+
+12.select distinct o1.onum,o1.snum,o1.amt*0.12 from ORDERS o1 inner join ORDERS o2 on o1.onum=o2.onum;
+
+13.
+
+14.select rating,cname,cnum from CUSTOMERS order by rating desc;
+
+15.select odate,sum(amt) total from ORDERS group by odate order by odate desc;
+
+16.set @s=(select cnum from CUSTOMERS where cname='CISNEROS');
+  select * from ORDERS where cnum=@s;
+
+17.select cname ,rating from CUSTOMERS where cnum>ANY(select count(cnum) from ORDERS group by cnum); //not sure//
+
+30.select s.sname,o.onum from SALESPEOPLE s inner join ORDERS o on o.snum=s.snum where s.sname="Motika";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
