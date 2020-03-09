@@ -2,6 +2,8 @@
 
 using namespace std;
 
+static int f_acc;
+
 enum account_type{
  	  saving=1,current,Dmat
  };
@@ -16,21 +18,22 @@ class account
   double balance;
 
 public:
-    account();
-    account(int id,account_type type);
-    void accept();
-    void display();
-    void set_id(int id);
-    void set_balance(double balance);
-    void set_type(account_type type);
-    int get_id();
-    double get_balance();
-    account_type get_type();
-    void deposit(double balance);
-    void withdraw(double balance);
+    inline account();
+    inline account(int id,account_type type);
+    inline void accept();
+    inline void display();
+    inline void set_id(int id);
+    inline void set_balance(double balance);
+    inline void set_type(account_type type);
+    inline int get_id();
+    inline double get_balance();
+    inline account_type get_type();
+    inline void deposit(double balance);
+    inline void withdraw(double balance);
+    friend  inline int Auth(account *ac);
 };
 
-class insuff_bal
+class insuff_bal  //exception class
 {
     int id;
     account_type type;
@@ -39,6 +42,7 @@ public:
     insuff_bal(int id,double balance,account_type type);
     void print_msg();
 };
+
 insuff_bal::insuff_bal(int id,double balance,account_type type)
 {
 	this->id=id;
@@ -63,10 +67,6 @@ void account::withdraw(double amt)
 	   {this->balance-=amt;
 	   cout<<"\nAmount Withdrawn Successfuly!!!\nNew Balance : "<<this->balance;}
 
-}
-void account::deposit(double balance)
-{
-	this->balance+=balance;
 }
 
 account::account()
@@ -149,6 +149,15 @@ account_type account::get_type()
 	return this->type;
 }
 
+void account::deposit(double amt)
+{
+   if(amt<0)
+   {
+     throw "Amount Should Be greater Than 0";
+   }
+    this->balance+=amt;
+}
+
  void account::display()
  {
 	  cout<<"\n############################################";
@@ -158,22 +167,81 @@ account_type account::get_type()
 	  cout<<"\n############################################";
  }
 
-
  int menu()
  {
-	 cout<<"\n0.exit1.accept2.display";
+	 int c;
+	 cout<<"\n0.exit1.Deposite\n2.Withdraw\n3.Display Info";
+	 cin>>c;
+	 return c;
+ }
+
+ int Auth(account *ac)
+ {
+     cout<<"Enter acc_id: ";
+     cin>>f_acc;
+     int flag=0;
+     for(int i=0;i<5;i++)
+     {
+    	 if(ac[i].id==f_acc)
+    		 {flag=1;
+    		 return ac[i].id;}
+     }
+     if(flag==0)
+    	 return 0;
  }
 
  int main()
  {
-	 account a1;
-	 a1.accept();
-	 a1.display();
-	try
-	 { a1.withdraw(500); }
-	catch (insuff_bal b1)
-	{
-        b1.print_msg();
-	}
+	 cout<<"\nFirst Create 5 account TO run a bank or (bank wale mar jayenge)";
+	 account acc[5];
+	 for(int i=0;i<5;i++)
+	 {
+		 acc[i].accept();
+	 }
+while(1)
+   { int i=Auth(acc);
+     if(i==0)
+      cout<<"Account Not Found !!";
+     else
+    { int choice;
+	 while((choice=menu())!=0)
+	 {
+		 switch (choice)
+
+	 {
+	  case 1:
+		 double deposite;
+		 cout<<"\nEnter Amount You Want To Deposite : ";
+		 cin>>deposite;
+	   try
+	   {
+           acc[i].deposit(deposite);
+	   }
+       catch(char *msg)
+       {
+     	  cout<<"\n"<<msg;
+       }
+       break;
+
+
+	  case 2:
+		 int withdraw;
+    	 cout<<"\nEnter Amount You Want To Deposite: ";
+    	 cin>>withdraw;
+	   try
+	   { acc[i].withdraw(withdraw);}
+	    catch (insuff_bal *b1)
+	   {
+         b1->print_msg();
+	   }
+	   break;
+
+	  case 3:
+		  acc[i].display();
+		  break;
+	  }
+     }
+    }
+   }
 	 return 0;
  }
