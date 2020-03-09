@@ -155,6 +155,7 @@ void account::deposit(double amt)
    {
      throw "Amount Should Be greater Than 0";
    }
+   else
     this->balance+=amt;
 }
 
@@ -216,8 +217,9 @@ while(1)
 	   try
 	   {
            acc[i].deposit(deposite);
+           cout<<"\nDeposited Successfully"<<endl;
 	   }
-       catch(char *msg)
+       catch(const char *msg)
        {
      	  cout<<"\n"<<msg;
        }
@@ -226,13 +228,13 @@ while(1)
 
 	  case 2:
 		 int withdraw;
-    	 cout<<"\nEnter Amount You Want To Deposite: ";
+    	 cout<<"\nEnter Amount You Want To Withdraw: ";
     	 cin>>withdraw;
 	   try
 	   { acc[i].withdraw(withdraw);}
-	    catch (insuff_bal *b1)
+	    catch (insuff_bal b1)
 	   {
-         b1->print_msg();
+         b1.print_msg();
 	   }
 	   break;
 
